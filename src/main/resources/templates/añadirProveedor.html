@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Añadir Proveedor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm w-100">
+		  <div class="container-fluid">
+		    <a class="navbar-brand fw-bold text-white" href="/producto/lista">El rincón de la calidad</a>
+
+		    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+		      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		      <span class="navbar-toggler-icon"></span>
+		    </button>
+
+		    <div class="collapse navbar-collapse" id="navbarNav">
+		      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+		        <li class="nav-item"><a class="nav-link text-white" href="/producto/lista">Home</a></li>
+
+		        <li class="nav-item dropdown">
+		          <a class="nav-link dropdown-toggle text-white" href="#" id="buscarDropdown" role="button"
+		             data-bs-toggle="dropdown" aria-expanded="false">Buscar</a>
+		          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="buscarDropdown">
+		            <li><a class="dropdown-item" href="#" onclick="mostrarBuscador('producto')">Buscar Producto</a></li>
+		            <li><a class="dropdown-item" href="#" onclick="mostrarBuscador('proveedor')">Buscar Proveedor</a></li>
+		          </ul>
+		        </li>
+
+		        <!-- ✅ NUEVO BOTÓN AGREGADO -->
+		        <li class="nav-item">
+		          <a class="nav-link text-warning fw-bold" href="/registro">📜 Ver Movimientos</a>
+		        </li>
+		        <!-- ✅ FIN NUEVO BOTÓN -->
+		      </ul>
+
+		      <ul class="navbar-nav ms-auto">
+		        <li class="nav-item dropdown">
+		          <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
+		             data-bs-toggle="dropdown" aria-expanded="false">👤</a>
+		          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="userDropdown">
+		            <li><a class="dropdown-item" href="#">Perfil</a></li>
+		            <li><a class="dropdown-item" href="/login">Cerrar Sesión</a></li>
+		          </ul>
+		        </li>
+		      </ul>
+		    </div>
+		  </div>
+		</nav>
+
+		<div id="contenedorBuscador" class="container my-3" style="display:none;">
+		  <form id="formBuscador" method="get" class="d-flex gap-2">
+		    <input type="text" id="inputBusqueda" name="razonSocial" class="form-control" placeholder="Buscar..." required>
+		    <button type="submit" class="btn btn-outline-light bg-dark border-light">Buscar</button>
+		  </form>
+		</div>
+
+		<script>
+		  function mostrarBuscador(tipo) {
+		    const form = document.getElementById('formBuscador');
+		    const cont = document.getElementById('contenedorBuscador');
+		    const input = document.getElementById('inputBusqueda');
+		    
+		    cont.style.display = 'block';
+		    form.action = '/' + tipo + '/buscar';
+		    
+		    // cambia el nombre del parámetro según el tipo
+		    input.name = (tipo === 'producto') ? 'nombre' : 'razonSocial';
+		  }
+		</script>
+
+
+	  <div class="container py-4">
+    <h2 class="fw-bold text-success">➕ Añadir Nuevo Proveedor</h2>
+    <p class="text-muted">Completa los datos del proveedor y guárdalo</p>
+  </div>
+
+  <form th:action="@{/proveedor/guardar}" method="post" th:object="${proveedor}" class="card p-4 shadow-sm">
+    <div class="mb-3">
+      <label class="form-label">Razón Social:</label>
+      <input type="text" th:field="*{razonSocial}" class="form-control" required/>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Dirección:</label>
+      <input type="text" th:field="*{direccion}" class="form-control" required/>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Teléfono:</label>
+      <input type="text" th:field="*{telefono}" class="form-control"/>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary px-4">💾 Guardar</button>
+      <a href="/proveedor/lista" class="btn btn-secondary px-4">↩️ Volver</a>
+    </div>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

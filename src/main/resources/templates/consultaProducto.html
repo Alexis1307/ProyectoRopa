@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Productos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+
+<body class="bg-light">
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm w-100">
+	  <div class="container-fluid">
+	    <a class="navbar-brand fw-bold text-white" href="/producto/lista">El rincón de la calidad</a>
+
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+	      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+
+	    <div class="collapse navbar-collapse" id="navbarNav">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	        <li class="nav-item"><a class="nav-link text-white" href="/producto/lista">Home</a></li>
+
+	        <li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle text-white" href="#" id="buscarDropdown" role="button"
+	             data-bs-toggle="dropdown" aria-expanded="false">Buscar</a>
+	          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="buscarDropdown">
+	            <li><a class="dropdown-item" href="#" onclick="mostrarBuscador('producto')">Buscar Producto</a></li>
+	            <li><a class="dropdown-item" href="#" onclick="mostrarBuscador('proveedor')">Buscar Proveedor</a></li>
+	          </ul>
+	        </li>
+
+	        <!-- ✅ NUEVO BOTÓN AGREGADO -->
+	        <li class="nav-item">
+	          <a class="nav-link text-warning fw-bold" href="/registro">📜 Ver Movimientos</a>
+	        </li>
+	        <!-- ✅ FIN NUEVO BOTÓN -->
+	      </ul>
+
+	      <ul class="navbar-nav ms-auto">
+	        <li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
+	             data-bs-toggle="dropdown" aria-expanded="false">👤</a>
+	          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="userDropdown">
+	            <li><a class="dropdown-item" href="#">Perfil</a></li>
+	            <li><a class="dropdown-item" href="/login">Cerrar Sesión</a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+
+	<div id="contenedorBuscador" class="container my-3" style="display:none;">
+	  <form id="formBuscador" method="get" class="d-flex gap-2">
+	    <input type="text" id="inputBusqueda" name="razonSocial" class="form-control" placeholder="Buscar..." required>
+	    <button type="submit" class="btn btn-outline-light bg-dark border-light">Buscar</button>
+	  </form>
+	</div>
+
+	<script>
+	  function mostrarBuscador(tipo) {
+	    const form = document.getElementById('formBuscador');
+	    const cont = document.getElementById('contenedorBuscador');
+	    const input = document.getElementById('inputBusqueda');
+	    
+	    cont.style.display = 'block';
+	    form.action = '/' + tipo + '/buscar';
+	    
+	    // cambia el nombre del parámetro según el tipo
+	    input.name = (tipo === 'producto') ? 'nombre' : 'razonSocial';
+	  }
+	</script>
+
+
+  <div class="container py-4">
+    <h2 class="text-center mb-4"> Lista de Productos</h2>
+    <div class="text-end mb-3">
+      <a href="/producto/nuevo" class="btn btn-success me-2"> Añadir Producto</a>
+      <a href="/proveedor/lista" class="btn btn-primary"> Ver Proveedores</a>
+    </div>
+
+    <table class="table table-striped table-hover shadow-sm bg-white">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Proveedor</th>
+          <th colspan="2" class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="p : ${listaProductos}">
+          <td th:text="${p.idProd}"></td>
+          <td th:text="${p.nombre}"></td>
+          <td th:text="${p.categoria}"></td>
+          <td th:text="${p.precio} + ' $'"></td>
+          <td th:text="${p.stockActual}"></td>
+          <td th:text="${p.proveedor.razonSocial}"></td>
+          <td><a class="btn btn-warning btn-sm" th:href="@{/producto/editar/{id}(id=${p.idProd})}">✏️ Editar</a></td>
+          <td><a class="btn btn-danger btn-sm" th:href="@{/producto/eliminar/{id}(id=${p.idProd})}" onclick="return confirm('¿Seguro que deseas eliminar este producto? ⚠️');">🗑️ Eliminar</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
