@@ -14,7 +14,6 @@ public class TiendaController {
 
     @GetMapping("/inicio")
     public String inicioTienda(Model model) {
-        model.addAttribute("listaProductos", productoService.listar());
         return "/inicio";
     }
 }
