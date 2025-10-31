@@ -78,7 +78,10 @@
   </div>
 
   <form th:action="@{/proveedor/guardar}" method="post" th:object="${proveedor}" class="card p-4 shadow-sm border-0">
-    <input type="hidden" th:field="*{idProv}"/>
+
+	<input type="hidden" th:field="*{idProv}"/>
+	<input type="hidden" name="accion" value="Editar"/>
+
 
     <div class="mb-3">
       <label class="form-label">Razón Social:</label>

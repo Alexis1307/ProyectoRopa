@@ -1,5 +1,6 @@
 package com.tienda.controller;
 
+import com.tienda.entity.Producto;
 import com.tienda.entity.Proveedor;
 import com.tienda.service.ProveedorService;
 import com.tienda.service.RegistroMovimientoService;
@@ -66,13 +67,16 @@ public class ProveedorController {
         return "añadirProveedor";
     }
 
+    
     @PostMapping("/guardar")
-    public String guardarProveedor(@ModelAttribute Proveedor proveedor) {
+    public String guardarProveedor(
+    		@ModelAttribute Proveedor proveedor,
+    		@RequestParam("accion") String accion) {
         proveedorService.guardar(proveedor);
 
         String usuario = obtenerUsuarioActual();
-        String accion = (proveedor.getIdProv() == null) ? "Añadir" : "Editar";
         String detalle = "Proveedor: " + proveedor.getRazonSocial();
+        
         registroMovimientoService.registrarMovimiento(usuario, accion, "Proveedor", detalle);
 
         return "redirect:/proveedor/lista";

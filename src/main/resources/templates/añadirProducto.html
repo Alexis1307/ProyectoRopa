@@ -29,11 +29,9 @@
 		          </ul>
 		        </li>
 
-		        <!-- ✅ NUEVO BOTÓN AGREGADO -->
 		        <li class="nav-item">
 		          <a class="nav-link text-warning fw-bold" href="/registro">📜 Ver Movimientos</a>
 		        </li>
-		        <!-- ✅ FIN NUEVO BOTÓN -->
 		      </ul>
 
 		      <ul class="navbar-nav ms-auto">
@@ -66,7 +64,6 @@
 		    cont.style.display = 'block';
 		    form.action = '/' + tipo + '/buscar';
 		    
-		    // cambia el nombre del parámetro según el tipo
 		    input.name = (tipo === 'producto') ? 'nombre' : 'razonSocial';
 		  }
 		</script>
@@ -79,6 +76,9 @@
   </div>
 
   <form th:action="@{/producto/guardar}" method="post" th:object="${producto}" class="card p-4 shadow-sm border-0">
+
+	<input type="hidden" name="accion" value="Añadir"/>
+
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="form-label">Nombre:</label>

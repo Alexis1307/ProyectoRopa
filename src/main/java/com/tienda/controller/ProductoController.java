@@ -71,16 +71,20 @@ public class ProductoController {
     }
 
     @PostMapping("/guardar")
-    public String guardarProducto(@ModelAttribute Producto producto) {
+    public String guardarProducto(
+            @ModelAttribute Producto producto,
+            @RequestParam("accion") String accion) {
+
         productoService.guardar(producto);
 
         String usuario = obtenerUsuarioActual();
-        String accion = (producto.getIdProd() == null) ? "Añadir" : "Editar";
         String detalle = "Producto: " + producto.getNombre();
+
         registroMovimientoService.registrarMovimiento(usuario, accion, "Producto", detalle);
 
         return "redirect:/producto/lista";
     }
+
 
     @GetMapping("/eliminar/{id}")
     public String eliminarProducto(@PathVariable("id") Integer id) {
