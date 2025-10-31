@@ -14,6 +14,6 @@ public class TiendaController {
 
     @GetMapping("/inicio")
     public String inicioTienda(Model model) {
-        return "/inicio";
+        return "inicio";
     }
 }
